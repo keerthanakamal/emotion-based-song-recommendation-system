@@ -1,0 +1,6 @@
+python-dotenv
+spotipy
+scikit-learn
+transformers
+pandas
+numpy
