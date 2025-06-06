@@ -1,11 +1,27 @@
 from transformers import pipeline
+import os
 
 class EmotionDetector:
-    def __init__(self):
-        # Load emotion classification model
-        self.classifier = pipeline("text-classification", 
-                                  "j-hartmann/emotion-english-distilroberta-base",
-                                  top_k=None)
+    def __init__(self, model_path=None):
+        # Check if local model exists, otherwise use the online version
+        if model_path and os.path.exists(model_path):
+            print(f"Loading emotion model from local path: {model_path}")
+            # Load emotion classification model from local path
+            self.classifier = pipeline("text-classification", 
+                                    model_path,
+                                    top_k=None)
+        else:
+            print("Downloading emotion model (first run only)...")
+            # Load emotion classification model from Hugging Face
+            model_id = "j-hartmann/emotion-english-distilroberta-base"
+            self.classifier = pipeline("text-classification", 
+                                    model_id,
+                                    top_k=None)
+            # Optional: save the model locally after download
+            if not model_path:
+                model_path = "models/emotion_model"
+            self.classifier.save_pretrained(model_path)
+            print(f"Model saved to {model_path}")
         
         # Define our target emotions
         self.target_emotions = ["sadness", "anger", "fear", "joy", "neutral"]
@@ -29,50 +45,3 @@ class EmotionDetector:
             return "happy"
         else:
             return "neutral"
-        
-
-'''Emotion Detector Code Explanation
-This code implements a text-based emotion detection system using a pre-trained machine learning model. Here's how it works:
-
-Class Structure
-The EmotionDetector class provides a simple interface for detecting emotions in text.
-
-Initialization
-def __init__(self):
-    # Load emotion classification model
-    self.classifier = pipeline("text-classification", 
-                              "j-hartmann/emotion-english-distilroberta-base",
-                              top_k=None)
-    
-    # Define our target emotions
-    self.target_emotions = ["sadness", "anger", "fear", "joy", "neutral"]
-
-Uses Hugging Face's transformers library to load a pre-trained emotion classification model
-The model used is j-hartmann/emotion-english-distilroberta-base, which is trained to detect emotions in text
-top_k=None means it returns probabilities for all emotion classes
-Defines the target emotions the system can identify
-Emotion Detection
-
-def detect_emotion(self, text):
-    """Detect emotion from text input"""
-    results = self.classifier(text)
-    emotions = {item["label"]: item["score"] for item in results[0]}
-    
-    # Find the emotion with highest confidence
-    dominant_emotion = max(emotions.items(), key=lambda x: x[1])
-
-    Takes text as input and passes it to the classifier
-Converts the model's output to a dictionary mapping emotion labels to confidence scores
-Identifies the emotion with the highest confidence score
-Emotion Mapping
-The method maps the model's technical output to more user-friendly emotion terms:
-
-"sadness" → "sad"
-"anger" → "angry"
-"fear" → "fearful"
-"joy" → "happy"
-Other emotions → "neutral"
-The final result is a single string representing the detected emotion.
-
-    '''
-

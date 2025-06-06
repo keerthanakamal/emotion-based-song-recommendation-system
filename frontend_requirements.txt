@@ -4,7 +4,7 @@ You're building a web frontend for a mood-intensifying music recommender that:
 
 Takes text input describing a user's emotional state
 Analyzes the text to detect emotions
-Recommends songs that would intensify that emotion
+Recommends songs that would intensify that emotion (specifically Hindi and Malayalam songs only)
 Displays recommendations with song titles and artists
 API Endpoints
 Main Recommendation Endpoint
@@ -13,15 +13,15 @@ Request Body
 
 {
   "user_text": "Text describing user's mood",
-  "use_clustering": true/false
+  "languages": ["hindi", "malayalam"]
 }
 
 Response:
 {
   "emotion": "sad/angry/fearful/happy/neutral",
   "recommendations": [
-    {"title": "Song Title 1", "artist": "Artist Name 1"},
-    {"title": "Song Title 2", "artist": "Artist Name 2"},
+    {"title": "Song Title 1", "artist": "Artist Name 1", "language": "hindi"},
+    {"title": "Song Title 2", "artist": "Artist Name 2", "language": "malayalam"},
     ...
   ]
 }
@@ -29,12 +29,11 @@ Response:
 UI Components Needed
 Header Section
 
-Title: "Mood-Intensifying Music Recommender"
-Brief description explaining what the system does
+Title: "Hindi & Malayalam Mood-Intensifying Music Recommender"
+Brief description explaining what the system does and mentioning it specifically recommends Hindi and Malayalam songs
 Input Section
 
 Text area for users to enter how they're feeling
-Checkbox for "Use advanced clustering for better matches"
 Submit button ("Get Recommendations"
 
 Loading State
@@ -55,7 +54,6 @@ Previous searches/recommendations history
 User Flow
 User arrives at the site
 User enters text describing their current emotional state
-User decides whether to use advanced clustering (can be pre-checked)
 User clicks "Get Recommendations" button
 Loading state appears
 Results are displayed showing the detected emotion and song recommendations
