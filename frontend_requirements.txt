@@ -1,0 +1,89 @@
+Frontend Requirements for Emotion-Based Song Recommendation System
+System Overview
+You're building a web frontend for a mood-intensifying music recommender that:
+
+Takes text input describing a user's emotional state
+Analyzes the text to detect emotions
+Recommends songs that would intensify that emotion
+Displays recommendations with song titles and artists
+API Endpoints
+Main Recommendation Endpoint
+URL: /recommend (POST)
+Request Body
+
+{
+  "user_text": "Text describing user's mood",
+  "use_clustering": true/false
+}
+
+Response:
+{
+  "emotion": "sad/angry/fearful/happy/neutral",
+  "recommendations": [
+    {"title": "Song Title 1", "artist": "Artist Name 1"},
+    {"title": "Song Title 2", "artist": "Artist Name 2"},
+    ...
+  ]
+}
+
+UI Components Needed
+Header Section
+
+Title: "Mood-Intensifying Music Recommender"
+Brief description explaining what the system does
+Input Section
+
+Text area for users to enter how they're feeling
+Checkbox for "Use advanced clustering for better matches"
+Submit button ("Get Recommendations"
+
+Loading State
+
+Visual indicator (spinner/loading animation)
+"Analyzing your mood and finding matching songs..." text
+Results Section
+
+Detected emotion display ("Detected Mood: [emotion]")
+List of recommended songs:
+Each song showing number, title, and artist
+Option to enhance: add album art or Spotify play buttons
+Optional Features
+
+Error handling display for API failures
+Option to save or share recommendations
+Previous searches/recommendations history
+User Flow
+User arrives at the site
+User enters text describing their current emotional state
+User decides whether to use advanced clustering (can be pre-checked)
+User clicks "Get Recommendations" button
+Loading state appears
+Results are displayed showing the detected emotion and song recommendations
+User can view results, possibly play sample tracks, or make a new query
+Design Recommendations
+Color Scheme
+
+Consider using Spotify green (#1DB954) as accent color
+Emotional color cues based on detected emotion:
+Sad: Blue tones
+Happy: Yellow/orange tones
+Angry: Red tones
+Fearful: Purple tones
+Neutral: Gray tones
+Layout
+
+Mobile-responsive design
+Clean, modern aesthetic
+Visual space between input and results sections
+Card-based design for song recommendations
+Typography
+
+Clear, readable fonts
+Different font weights to distinguish song titles from artists
+Emphasis on the detected emotion
+Technical Notes
+Backend is built with Python using the Spotify API
+API call might take a few seconds (emotion detection + song recommendation)
+Ensure error handling for API timeouts or failures
+Should work on both desktop and mobile devices
+No user login required, but could be added as an extension
